@@ -1,0 +1,676 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KTuber Next | Choose Your Team</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #080808;
+    color: #f5f1f2;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+}
+
+/* NAV */
+
+nav {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7%;
+    border-bottom: 1px solid #242424;
+    background: rgba(8,8,8,.9);
+}
+
+.logo {
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.logo span {
+    color: #b83b54;
+}
+
+.back {
+    color: #999;
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+
+.back:hover {
+    color: white;
+}
+
+/* HEADER */
+
+.header {
+    text-align: center;
+    padding: 90px 20px 55px;
+}
+
+.label {
+    color: #c34b63;
+    font-size: 10px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(45px, 7vw, 75px);
+    margin-bottom: 18px;
+}
+
+.header p {
+    color: #888;
+    max-width: 580px;
+    margin: auto;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+/* TEAM GRID */
+
+.teams {
+    width: 86%;
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding-bottom: 80px;
+}
+
+.team-card {
+    position: relative;
+    padding: 32px;
+    border: 1px solid #282828;
+    background: #0d0d0d;
+    transition: .35s ease;
+    overflow: hidden;
+}
+
+.team-card:hover {
+    border-color: #9f344b;
+    transform: translateY(-5px);
+}
+
+.team-number {
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+/* TEAM NAME */
+
+.team-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    margin: 15px 0 8px;
+    color: #ffffff;
+}
+
+.team-theme {
+    color: #777;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+/* SEATS */
+
+.seat-area {
+    margin-top: 28px;
+    border-top: 1px solid #222;
+    padding-top: 22px;
+}
+
+.seat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seats-left {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.seats-left strong {
+    color: white;
+    font-size: 23px;
+}
+
+.open {
+    color: #8fc99b;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.full {
+    color: #d46a6a;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+/* SEAT DOTS */
+
+.seats {
+    display: flex;
+    gap: 7px;
+    margin: 18px 0;
+}
+
+.seat {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid #555;
+}
+
+.seat.taken {
+    background: #555;
+    border-color: #555;
+}
+
+.seat.available {
+    border-color: #b83b54;
+}
+
+/* BUTTON */
+
+.join {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #b83b54;
+    background: transparent;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: .3s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.join:hover {
+    background: #b83b54;
+}
+
+.join.disabled {
+    cursor: not-allowed;
+    border-color: #333;
+    color: #555;
+    background: transparent;
+    pointer-events: none;
+}
+
+/* NOTICE */
+
+.notice {
+    width: 86%;
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    padding: 25px;
+    border: 1px solid #252525;
+    text-align: center;
+    color: #777;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.notice strong {
+    color: #ddd;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 700px) {
+
+    .teams {
+        grid-template-columns: 1fr;
+        width: 90%;
+    }
+
+    .team-card {
+        padding: 25px;
+    }
+
+    .header {
+        padding-top: 65px;
+    }
+
+    nav {
+        padding: 0 5%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        KTUBER<span>NEXT</span>
+    </div>
+
+    <a href="index.html" class="back">
+        ← BACK TO HOME
+    </a>
+
+</nav>
+
+
+<header class="header">
+
+    <div class="label">
+        KTUBER NEXT • SEASON 01
+    </div>
+
+    <h1>Choose Your Team</h1>
+
+    <p>
+        Five teams. Six seats each. Choose the team that represents
+        your creator identity and secure your place in KTuber Next.
+    </p>
+
+</header>
+
+
+<main class="teams">
+
+
+    <!-- LILIES -->
+
+    <article class="team-card" data-team="Lilies">
+
+        <div class="team-number">TEAM 01</div>
+
+        <h2 class="team-name">Lilies</h2>
+
+        <div class="team-theme">
+            CREATIVE • ELEGANT
+        </div>
+
+        <div class="seat-area">
+
+            <div class="seat-top">
+
+                <div class="seats-left">
+                    <strong class="available-count">6</strong> / 6 seats available
+                </div>
+
+                <div class="status open">
+                    ● OPEN
+                </div>
+
+            </div>
+
+            <div class="seats"></div>
+
+            <a href="register.html?team=Lilies" class="join">
+                JOIN LILIES
+            </a>
+
+        </div>
+
+    </article>
+
+
+    <!-- AZALEAS -->
+
+    <article class="team-card" data-team="Azaleas">
+
+        <div class="team-number">TEAM 02</div>
+
+        <h2 class="team-name">Azaleas</h2>
+
+        <div class="team-theme">
+            UNIQUE • BOLD
+        </div>
+
+        <div class="seat-area">
+
+            <div class="seat-top">
+
+                <div class="seats-left">
+                    <strong class="available-count">6</strong> / 6 seats available
+                </div>
+
+                <div class="status open">
+                    ● OPEN
+                </div>
+
+            </div>
+
+            <div class="seats"></div>
+
+            <a href="register.html?team=Azaleas" class="join">
+                JOIN AZALEAS
+            </a>
+
+        </div>
+
+    </article>
+
+
+    <!-- TULIPS -->
+
+    <article class="team-card" data-team="Tulips">
+
+        <div class="team-number">TEAM 03</div>
+
+        <h2 class="team-name">Tulips</h2>
+
+        <div class="team-theme">
+            FRESH • EXPRESSIVE
+        </div>
+
+        <div class="seat-area">
+
+            <div class="seat-top">
+
+                <div class="seats-left">
+                    <strong class="available-count">6</strong> / 6 seats available
+                </div>
+
+                <div class="status open">
+                    ● OPEN
+                </div>
+
+            </div>
+
+            <div class="seats"></div>
+
+            <a href="register.html?team=Tulips" class="join">
+                JOIN TULIPS
+            </a>
+
+        </div>
+
+    </article>
+
+
+    <!-- WISTERIAS -->
+
+    <article class="team-card" data-team="Wisterias">
+
+        <div class="team-number">TEAM 04</div>
+
+        <h2 class="team-name">Wisterias</h2>
+
+        <div class="team-theme">
+            BRIGHT • RELATABLE
+        </div>
+
+        <div class="seat-area">
+
+            <div class="seat-top">
+
+                <div class="seats-left">
+                    <strong class="available-count">6</strong> / 6 seats available
+                </div>
+
+                <div class="status open">
+                    ● OPEN
+                </div>
+
+            </div>
+
+            <div class="seats"></div>
+
+            <a href="register.html?team=Wisterias" class="join">
+                JOIN WISTERIAS
+            </a>
+
+        </div>
+
+    </article>
+
+
+    <!-- MAGNOLIAS -->
+
+    <article class="team-card" data-team="Magnolias">
+
+        <div class="team-number">TEAM 05</div>
+
+        <h2 class="team-name">Magnolias</h2>
+
+        <div class="team-theme">
+            ARTISTIC • FEARLESS
+        </div>
+
+        <div class="seat-area">
+
+            <div class="seat-top">
+
+                <div class="seats-left">
+                    <strong class="available-count">6</strong> / 6 seats available
+                </div>
+
+                <div class="status open">
+                    ● OPEN
+                </div>
+
+            </div>
+
+            <div class="seats"></div>
+
+            <a href="register.html?team=Magnolias" class="join">
+                JOIN MAGNOLIAS
+            </a>
+
+        </div>
+
+    </article>
+
+</main>
+
+
+<div class="notice">
+
+    <strong>IMPORTANT:</strong>
+    Team availability updates automatically.
+    Seats are limited to 6 contestants per team.
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://jtzplwbdbnvketlfqxfn.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_P9bNQRnzZ0DXLwRCkPxQlQ_FIed7XSX";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+const MAX_SEATS = 6;
+
+const teams = [
+    "Lilies",
+    "Azaleas",
+    "Tulips",
+    "Wisterias",
+    "Magnolias"
+];
+
+
+async function updateTeamSeats() {
+
+    const { data, error } =
+        await supabaseClient.rpc("get_team_counts");
+
+    if (error) {
+
+        console.error(
+            "Could not load team counts:",
+            error
+        );
+
+        return;
+    }
+
+
+    const counts = {};
+
+
+    data.forEach(row => {
+
+        const teamName =
+            row.team.trim().toLowerCase();
+
+        counts[teamName] =
+            Number(row.count);
+
+    });
+
+
+    document
+        .querySelectorAll(".team-card")
+        .forEach(card => {
+
+            const team =
+                card.dataset.team;
+
+            const key =
+                team.toLowerCase();
+
+            const taken =
+                counts[key] || 0;
+
+            const available =
+                Math.max(
+                    0,
+                    MAX_SEATS - taken
+                );
+
+
+            /* NUMBER */
+
+            card.querySelector(
+                ".available-count"
+            ).textContent = available;
+
+
+            /* STATUS */
+
+            const status =
+                card.querySelector(".status");
+
+            if (available === 0) {
+
+                status.textContent = "● FULL";
+
+                status.className =
+                    "status full";
+
+            } else {
+
+                status.textContent = "● OPEN";
+
+                status.className =
+                    "status open";
+
+            }
+
+
+            /* SEAT DOTS */
+
+            const seats =
+                card.querySelector(".seats");
+
+            seats.innerHTML = "";
+
+
+            for (
+                let i = 0;
+                i < MAX_SEATS;
+                i++
+            ) {
+
+                const seat =
+                    document.createElement("span");
+
+                seat.classList.add("seat");
+
+                if (i < taken) {
+
+                    seat.classList.add("taken");
+
+                } else {
+
+                    seat.classList.add("available");
+
+                }
+
+                seats.appendChild(seat);
+
+            }
+
+
+            /* JOIN BUTTON */
+
+            const join =
+                card.querySelector(".join");
+
+            if (available === 0) {
+
+                join.classList.add("disabled");
+
+            } else {
+
+                join.classList.remove("disabled");
+
+            }
+
+        });
+
+}
+
+
+/* LOAD IMMEDIATELY */
+
+updateTeamSeats();
+
+
+/* REFRESH EVERY 10 SECONDS */
+
+setInterval(
+    updateTeamSeats,
+    10000
+);
+
+</script>
+
+</body>
+</html>
+```

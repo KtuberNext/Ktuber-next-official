@@ -1,0 +1,643 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KTuber Next — K-Pop Creator Competition</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #090909;
+    color: #f7f2f2;
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ---------- NAVBAR ---------- */
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 7%;
+    background: rgba(9,9,9,0.75);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.logo {
+    font-weight: 800;
+    letter-spacing: 3px;
+    font-size: 20px;
+}
+
+.logo span {
+    color: #b83b54;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #d85a72;
+}
+
+/* ---------- HERO ---------- */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 100px 20px 60px;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: #7e1834;
+    filter: blur(180px);
+    opacity: 0.22;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+}
+
+.small-title {
+    color: #d85a72;
+    font-size: 12px;
+    letter-spacing: 5px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(55px, 10vw, 125px);
+    line-height: 0.85;
+    letter-spacing: -5px;
+    font-weight: 800;
+}
+
+.hero h1 span {
+    color: #b83b54;
+}
+
+.hero-subtitle {
+    margin: 30px auto;
+    max-width: 600px;
+    color: #aaa;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.btn {
+    padding: 14px 27px;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #b83b54;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #d85a72;
+    transform: translateY(-3px);
+}
+
+.btn-outline {
+    border: 1px solid #444;
+    color: white;
+}
+
+.btn-outline:hover {
+    border-color: #b83b54;
+}
+
+/* ---------- SECTION ---------- */
+
+section {
+    padding: 110px 7%;
+}
+
+.section-label {
+    color: #b83b54;
+    font-size: 11px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(35px, 5vw, 65px);
+    margin-bottom: 25px;
+}
+
+.section-description {
+    max-width: 650px;
+    color: #999;
+    line-height: 1.8;
+}
+
+/* ---------- RECENT COMPETITION ---------- */
+
+.recent {
+    background: #0d0d0d;
+}
+
+.competition-card {
+    margin-top: 50px;
+    border: 1px solid #272727;
+    background: linear-gradient(135deg, #121212, #0c0c0c);
+    padding: 45px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.competition-card::after {
+    content: "KTN";
+    position: absolute;
+    font-size: 220px;
+    font-weight: 800;
+    color: rgba(184,59,84,0.035);
+    right: -30px;
+    bottom: -80px;
+}
+
+.competition-info {
+    position: relative;
+    z-index: 2;
+}
+
+.status {
+    display: inline-block;
+    border: 1px solid #b83b54;
+    color: #d85a72;
+    padding: 7px 12px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.competition-info h3 {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.competition-info p {
+    color: #999;
+    line-height: 1.8;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.stat {
+    padding: 20px;
+    border: 1px solid #252525;
+}
+
+.stat strong {
+    display: block;
+    font-size: 25px;
+    color: white;
+}
+
+.stat span {
+    font-size: 10px;
+    color: #888;
+    letter-spacing: 1px;
+}
+
+/* ---------- TEAMS ---------- */
+
+.teams-grid {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.team {
+    padding: 35px 20px;
+    border: 1px solid #252525;
+    text-align: center;
+    transition: 0.4s;
+}
+
+.team:hover {
+    transform: translateY(-8px);
+    border-color: #b83b54;
+    background: #111;
+}
+
+.team-number {
+    font-size: 11px;
+    color: #777;
+    letter-spacing: 2px;
+}
+
+.team h3 {
+    margin: 15px 0 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 25px;
+}
+
+.team p {
+    color: #777;
+    font-size: 11px;
+}
+
+/* ---------- TASKS ---------- */
+
+.tasks {
+    background: #0d0d0d;
+}
+
+.tasks-grid {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.task {
+    padding: 35px;
+    border: 1px solid #262626;
+    position: relative;
+}
+
+.task-number {
+    color: #b83b54;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.task h3 {
+    margin: 18px 0 12px;
+    font-size: 20px;
+}
+
+.task p {
+    color: #888;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* ---------- TIMELINE ---------- */
+
+.timeline {
+    max-width: 800px;
+    margin: 50px auto 0;
+}
+
+.timeline-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    border-left: 1px solid #333;
+    padding: 0 0 45px 35px;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #b83b54;
+    border-radius: 50%;
+    left: -4px;
+    top: 5px;
+}
+
+.timeline-date {
+    color: #b83b54;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.timeline-content h3 {
+    margin-bottom: 8px;
+}
+
+.timeline-content p {
+    color: #888;
+    font-size: 13px;
+}
+
+/* ---------- JUDGES ---------- */
+
+.judges {
+    background: #0d0d0d;
+}
+
+.judges-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 18px;
+    margin-top: 50px;
+}
+
+.judge {
+    height: 240px;
+    border: 1px solid #292929;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 25px;
+    background: linear-gradient(to top, #121212, #0b0b0b);
+}
+
+.judge span {
+    color: #b83b54;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.judge h3 {
+    margin-top: 8px;
+}
+
+/* ---------- CTA ---------- */
+
+.cta {
+    text-align: center;
+    padding: 130px 20px;
+}
+
+.cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 6vw, 75px);
+    margin-bottom: 20px;
+}
+
+.cta p {
+    color: #888;
+    margin-bottom: 30px;
+}
+
+/* ---------- FOOTER ---------- */
+
+footer {
+    padding: 35px 7%;
+    border-top: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 11px;
+}
+
+footer strong {
+    color: #ddd;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media(max-width: 900px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .competition-card {
+        grid-template-columns: 1fr;
+    }
+
+    .teams-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .tasks-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .judges-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width: 550px) {
+
+    section {
+        padding: 80px 6%;
+    }
+
+    .hero h1 {
+        letter-spacing: -3px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .competition-card {
+        padding: 25px;
+    }
+
+    .teams-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .judges-grid {
+        grid-template-columns: 1fr;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<nav>
+    <div class="logo">KTUBER<span>NEXT</span></div>
+
+    <ul class="nav-links">
+        <li><a href="#competition">COMPETITION</a></li>
+        <li><a href="teams.html">TEAMS</a></li>
+        <li><a href="#tasks">TASKS</a></li>
+        <li><a href="#timeline">TIMELINE</a></li>
+    </ul>
+</nav>
+
+
+<!-- HERO -->
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="small-title">
+            THE NEXT GENERATION OF KTUBERS
+        </div>
+
+        <h1>
+            KTUBER<br>
+            <span>NEXT</span>
+        </h1>
+
+        <p class="hero-subtitle">
+            A creative competition for K-pop creators ready to prove
+            their editing, channel-building, storytelling and content skills.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#competition" class="btn btn-primary">
+                EXPLORE COMPETITION
+            </a>
+
+            <a href="#tasks" class="btn btn-outline">
+                VIEW TASKS
+            </a>
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- RECENT COMPETITION -->
+
+<section class="recent" id="competition">
+
+    <div class="section-label">
+        RECENT EVENT
+    </div>
+
+    <h2 class="section-title">
+        The Latest Competition
+    </h2>
+
+    <p class="section-description">
+        KTuber Next brings creators together through creative challenges
+        designed around K-pop content, editing, branding and YouTube
+        channel creativity.
+    </p>
+
+
+    <div class="competition-card">
+
+        <div class="competition-info">
+
+            <div class="status">
+                RECENT COMPETITION
+            </div>
+
+            <h3>KTuber Next — Season 01</h3>
+
+            <p>
+                Contestants were placed into creative teams and challenged
+                to build their own creator identities, launch content and
+                complete K-pop themed creative assignments.
+            </p>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <strong>5</strong>
+                    <span>TEAMS</span>
+                </div>
+
+                <div class="stat">
+                    <strong>6</strong>
+                    <span>MAX MEMBERS</span>
+                </div>
+
+                <div class="stat">
+                    <strong>3</strong>
+                    <span>MAIN TASKS</span>
+                </div>
+
+                <div class="stat">
+                    <strong>TOP 3</strong>
+                    <span>FINALISTS</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="competition-info">
+
+            <div class="status">
+                THE CHALLENGE
+            </div>
+
+            <h3>Prove Your Creativity.</h3>
+
+            <p>
+                From your first introduction to your channel identity,
+                content strategy and final creative video, every task
+                gives contestants a chance to show what makes their
+                creator style different.
+            </p>
+
+            <br>
+
+            <a href="#tasks" cl
+```

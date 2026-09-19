@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KTuber Next — Registration</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #080808;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .back {
+            display: inline-block;
+            margin: 30px;
+            color: #aaa;
+            text-decoration: none;
+            letter-spacing: 2px;
+            font-size: 13px;
+        }
+
+        .back:hover {
+            color: white;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 40px auto 80px;
+            padding: 30px;
+        }
+
+        .tag {
+            color: #999;
+            letter-spacing: 4px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 52px;
+            letter-spacing: 5px;
+            margin: 0;
+        }
+
+        .subtitle {
+            color: #999;
+            line-height: 1.7;
+            margin-top: 15px;
+            margin-bottom: 40px;
+        }
+
+        .form-box {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 18px;
+            padding: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 22px;
+            margin-bottom: 9px;
+            color: #ddd;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 15px;
+            background: #181818;
+            color: white;
+            border: 1px solid #333;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #777;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 32px;
+            padding: 17px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: black;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #ddd;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 25px;
+            text-align: center;
+            line-height: 1.7;
+            min-height: 25px;
+        }
+
+        .note {
+            color: #777;
+            font-size: 12px;
+            margin-top: 25px;
+            line-height: 1.6;
+        }
+
+        .seat-status {
+            margin-top: 12px;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #777;
+            min-height: 18px;
+        }
+
+        .seat-open {
+            color: #aaa;
+        }
+
+        .seat-full {
+            color: #d85a72;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="teams.html" class="back">
+        ← BACK TO TEAMS
+    </a>
+
+    <div class="container">
+
+        <div class="tag">
+            KTUBER NEXT • OFFICIAL REGISTRATION
+        </div>
+
+        <h1>REGISTER</h1>
+
+        <p class="subtitle">
+            Ready to enter KTuber Next?
+            Submit your details below and choose your team.
+        </p>
+
+        <div class="form-box">
+
+            <form id="registrationForm">
+
+                <label for="channel_id">
+                    YOUTUBE CHANNEL ID
+                </label>
+
+                <input
+                    type="text"
+                    id="channel_id"
+                    placeholder="Enter your channel ID"
+                    required
+                >
+
+                <label for="pinterest_id">
+                    PINTEREST ID
+                </label>
+
+                <input
+                    type="text"
+                    id="pinterest_id"
+                    placeholder="Enter your Pinterest ID"
+                    required
+                >
+
+                <label for="team">
+                    CHOOSE YOUR TEAM
+                </label>
+
+                <select id="team" required>
+
+                    <option value="">
+                        Select a team
+                    </option>
+
+                    <option value="Lilies">
+                        🌸 Lilies
+                    </option>
+
+                    <option value="Tulips">
+                        🌷 Tulips
+                    </option>
+
+                    <option value="Wisterias">
+                        💜 Wisterias
+                    </option>
+
+                    <option value="Magnolias">
+                        🌺 Magnolias
+                    </option>
+
+                    <option value="Azaleas">
+                        🌿 Azaleas
+                    </option>
+
+                </select>
+
+                <div id="seatStatus" class="seat-status"></div>
+
+                <button type="submit" id="submitButton">
+                    CONFIRM REGISTRATION
+                </button>
+
+            </form>
+
+            <div id="message"></div>
+
+            <div class="note">
+                Please make sure your YouTube Channel ID
+                and Pinterest ID are correct before submitting.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+
+        const SUPABASE_URL =
+            "https://jtzplwbdbnvketlfqxfn.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_P9bNQRnzZ0DXLwRCkPxQlQ_FIed7XSX";
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        const MAX_SEATS = 6;
+
+
+        const form =
+            document.getElementById("registrationForm");
+
+        const message =
+            document.getElementById("message");
+
+        const submitButton =
+            document.getElementById("submitButton");
+
+        const teamSelect =
+            document.getElementById("team");
+
+        const seatStatus =
+            document.getElementById("seatStatus");
+
+
+        /*
+        ----------------------------------------
+        GET CURRENT TEAM COUNTS
+        ----------------------------------------
+        */
+
+        async function getTeamCount(teamName) {
+
+            const { data, error } =
+                await supabaseClient.rpc(
+                    "get_team_counts"
+                );
+
+            if (error) {
+                console.error(
+                    "COUNT ERROR:",
+                    error
+                );
+
+                throw error;
+            }
+
+
+            const matchingTeam =
+                data.find(function(item) {
+
+                    return item.team &&
+                        item.team.toLowerCase().trim() ===
+                        teamName.toLowerCase().trim();
+
+                });
+
+
+            return matchingTeam
+                ? Number(matchingTeam.count)
+                : 0;
+        }
+
+
+        /*
+        ----------------------------------------
+        UPDATE SEAT STATUS
+        ----------------------------------------
+        */
+
+        async function updateSeatStatus() {
+
+            const team =
+                teamSelect.value;
+
+
+            if (!team) {
+
+                seatStatus.innerHTML = "";
+
+                submitButton.disabled = false;
+
+                return;
+            }
+
+
+            seatStatus.innerHTML =
+                "Checking available seats...";
+
+
+            try {
+
+                const count =
+                    await getTeamCount(team);
+
+
+                const remaining =
+                    MAX_SEATS - count;
+
+
+                if (count >= MAX_SEATS) {
+
+                    seatStatus.innerHTML =
+                        "🔴 TEAM FULL — 6/6 SEATS TAKEN";
+
+                    seatStatus.className =
+                        "seat-status seat-full";
+
+                    submitButton.disabled = true;
+
+                } else {
+
+                    seatStatus.innerHTML =
+                        "🟢 " +
+                        remaining +
+                        " seat" +
+                        (remaining === 1 ? "" : "s") +
+                        " remaining — " +
+                        count +
+                        "/6 filled";
+
+                    seatStatus.className =
+                        "seat-status seat-open";
+
+                    submitButton.disabled = false;
+                }
+
+            }
+
+            catch (error) {
+
+                seatStatus.innerHTML =
+                    "Could not check seat availability.";
+
+                seatStatus.className =
+                    "seat-status";
+
+                submitButton.disabled = false;
+            }
+        }
+
+
+        /*
+        ----------------------------------------
+        TEAM CHANGE
+        ----------------------------------------
+        */
+
+        teamSelect.addEventListener(
+            "change",
+            updateSeatStatus
+        );
+
+
+        /*
+        ----------------------------------------
+        REGISTRATION
+        ----------------------------------------
+        */
+
+        form.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const channel_id =
+                    document
+                    .getElementById("channel_id")
+                    .value
+                    .trim();
+
+
+                const pinterest_id =
+                    document
+                    .getElementById("pinterest_id")
+                    .value
+                    .trim();
+
+
+                const team =
+                    teamSelect.value;
+
+
+                if (
+                    !channel_id ||
+                    !pinterest_id ||
+                    !team
+                ) {
+
+                    message.innerHTML =
+                        "❌ Please complete all fields.";
+
+                    return;
+                }
+
+
+                submitButton.disabled = true;
+
+                submitButton.innerText =
+                    "CHECKING SEAT...";
+
+                message.innerHTML =
+                    "Checking team availability...";
+
+
+                try {
+
+                    /*
+                    IMPORTANT:
+
+                    We check AGAIN immediately
+                    before inserting.
+
+                    This prevents someone from
+                    submitting into a team that
+                    became full while the page
+                    was open.
+                    */
+
+                    const currentCount =
+                        await getTeamCount(team);
+
+
+                    if (currentCount >= MAX_SEATS) {
+
+                        message.innerHTML =
+                            "🔴 <strong>" +
+                            team +
+                            " IS FULL.</strong><br><br>" +
+                            "Please choose another team.";
+
+                        submitButton.disabled = false;
+
+                        submitButton.innerText =
+                            "CONFIRM REGISTRATION";
+
+                        await updateSeatStatus();
+
+                        return;
+                    }
+
+
+                    submitButton.innerText =
+                        "SUBMITTING...";
+
+
+                    /*
+                    INSERT ONLY
+
+                    No .select() because the
+                    public user only needs
+                    permission to submit.
+                    */
+
+                    const { error } =
+                        await supabaseClient
+                        .from("registrations")
+                        .insert([
+                            {
+                                channel_id:
+                                    channel_id,
+
+                                pinterest_id:
+                                    pinterest_id,
+
+                                team:
+                                    team
+                            }
+                        ]);
+
+
+                    if (error) {
+
+                        console.error(
+                            "SUPABASE ERROR:",
+                            error
+                        );
+
+
+                        message.innerHTML =
+                            "❌ Registration failed.<br><br>" +
+                            "<small>" +
+                            error.message +
+                            "</small>";
+
+
+                        submitButton.disabled = false;
+
+                        submitButton.innerText =
+                            "CONFIRM REGISTRATION";
+
+                        return;
+                    }
+
+
+                    /*
+                    SUCCESS
+                    */
+
+                    message.innerHTML =
+                        "✨ REGISTRATION SUCCESSFUL!<br><br>" +
+                        "You selected <strong>" +
+                        team +
+                        "</strong>.<br>" +
+                        "Welcome to KTuber Next!";
+
+
+                    form.reset();
+
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.innerText =
+                        "REGISTERED ✓";
+
+
+                    seatStatus.innerHTML =
+                        "";
+
+
+                    /*
+                    Refresh availability
+                    after registration.
+                    */
+
+                    await updateSeatStatus();
+
+                }
+
+
+                catch (err) {
+
+                    console.error(
+                        "CONNECTION ERROR:",
+                        err
+                    );
+
+
+                    message.innerHTML =
+                        "❌ Could not connect to the registration database.<br>" +
+                        "Please try again.";
+
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.innerText =
+                        "CONFIRM REGISTRATION";
+                }
+
+            }
+        );
+
+
+        /*
+        ----------------------------------------
+        AUTOMATICALLY SELECT TEAM
+        FROM TEAMS PAGE
+        ----------------------------------------
+        */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const selectedTeam =
+            params.get("team");
+
+
+        if (selectedTeam) {
+
+            const validTeams = [
+                "Lilies",
+                "Tulips",
+                "Wisterias",
+                "Magnolias",
+                "Azaleas"
+            ];
+
+
+            if (
+                validTeams.includes(
+                    selectedTeam
+                )
+            ) {
+
+                teamSelect.value =
+                    selectedTeam;
+
+                updateSeatStatus();
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,828 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KTuber Next — Tasks</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #090909;
+    color: #f7f2f2;
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ---------- NAVBAR ---------- */
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 22px 7%;
+
+    background: rgba(9,9,9,0.78);
+    backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.logo {
+    font-weight: 800;
+    letter-spacing: 3px;
+    font-size: 20px;
+}
+
+.logo span {
+    color: #b83b54;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #ddd;
+    text-decoration: none;
+
+    font-size: 13px;
+    letter-spacing: 1px;
+
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #d85a72;
+}
+
+/* ---------- HERO ---------- */
+
+.hero {
+    min-height: 75vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    position: relative;
+
+    padding: 130px 20px 80px;
+
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    background: #7e1834;
+
+    filter: blur(180px);
+
+    opacity: 0.20;
+
+    top: -220px;
+    left: 50%;
+
+    transform: translateX(-50%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    max-width: 850px;
+}
+
+.small-title {
+    color: #d85a72;
+
+    font-size: 11px;
+    letter-spacing: 5px;
+
+    font-weight: 700;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(55px, 10vw, 110px);
+
+    line-height: 0.9;
+
+    letter-spacing: -5px;
+
+    font-weight: 800;
+}
+
+.hero h1 span {
+    color: #b83b54;
+}
+
+.hero-subtitle {
+    margin: 30px auto 0;
+
+    max-width: 620px;
+
+    color: #999;
+
+    line-height: 1.8;
+
+    font-size: 14px;
+}
+
+/* ---------- MAIN ---------- */
+
+.tasks-section {
+    background: #0d0d0d;
+
+    padding: 100px 7%;
+}
+
+.section-label {
+    color: #b83b54;
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    font-weight: 700;
+
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+
+    font-size: clamp(35px, 5vw, 60px);
+
+    margin-bottom: 20px;
+}
+
+.section-description {
+    max-width: 650px;
+
+    color: #888;
+
+    line-height: 1.8;
+
+    font-size: 14px;
+}
+
+/* ---------- STATUS ---------- */
+
+.status-bar {
+    margin-top: 45px;
+
+    padding: 18px 22px;
+
+    border: 1px solid #292929;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #101010;
+}
+
+.status-left {
+    color: #d85a72;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    font-weight: 700;
+}
+
+.status-right {
+    color: #666;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+/* ---------- TASK GRID ---------- */
+
+.tasks-grid {
+    margin-top: 25px;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.task-card {
+    position: relative;
+
+    min-height: 330px;
+
+    padding: 35px;
+
+    border: 1px solid #292929;
+
+    background:
+        linear-gradient(
+            145deg,
+            #131313,
+            #0b0b0b
+        );
+
+    overflow: hidden;
+
+    transition: 0.35s;
+}
+
+.task-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #6f2638;
+}
+
+.task-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    border-radius: 50%;
+
+    background: #7e1834;
+
+    filter: blur(90px);
+
+    opacity: 0.08;
+
+    right: -80px;
+    bottom: -80px;
+}
+
+.task-number {
+    color: #b83b54;
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+
+    font-weight: 700;
+}
+
+.lock {
+    font-size: 34px;
+
+    margin-top: 45px;
+
+    opacity: 0.75;
+}
+
+.task-card h3 {
+    margin-top: 20px;
+
+    font-size: 22px;
+
+    letter-spacing: 1px;
+}
+
+.task-card p {
+    margin-top: 12px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+.classified {
+    display: inline-block;
+
+    margin-top: 25px;
+
+    padding: 7px 11px;
+
+    border: 1px solid #49202b;
+
+    color: #b83b54;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    font-weight: 700;
+}
+
+/* ---------- FINAL TASK ---------- */
+
+.final-task {
+    margin-top: 20px;
+
+    padding: 45px;
+
+    border: 1px solid #33202a;
+
+    background:
+        linear-gradient(
+            110deg,
+            #150d10,
+            #0d0d0d
+        );
+
+    text-align: center;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.final-task::before {
+    content: "FINAL";
+
+    position: absolute;
+
+    font-size: 130px;
+
+    font-weight: 800;
+
+    color: rgba(184,59,84,0.025);
+
+    left: 50%;
+
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+.final-task-content {
+    position: relative;
+    z-index: 2;
+}
+
+.final-task .task-number {
+    color: #d85a72;
+}
+
+.final-task h3 {
+    font-family: 'Playfair Display', serif;
+
+    font-size: 38px;
+
+    margin: 15px 0;
+}
+
+.final-task p {
+    max-width: 600px;
+
+    margin: auto;
+
+    color: #777;
+
+    line-height: 1.8;
+
+    font-size: 13px;
+}
+
+/* ---------- NOTICE ---------- */
+
+.notice {
+    margin-top: 70px;
+
+    padding: 30px;
+
+    border-left: 2px solid #b83b54;
+
+    background: #111;
+}
+
+.notice strong {
+    display: block;
+
+    color: #ddd;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 10px;
+}
+
+.notice p {
+    color: #777;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+/* ---------- BACK BUTTON ---------- */
+
+.back-area {
+    text-align: center;
+
+    margin-top: 55px;
+}
+
+.back-btn {
+    display: inline-block;
+
+    padding: 14px 27px;
+
+    border: 1px solid #444;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    border-color: #b83b54;
+
+    color: #d85a72;
+}
+
+/* ---------- FOOTER ---------- */
+
+footer {
+    padding: 35px 7%;
+
+    border-top: 1px solid #222;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #666;
+
+    font-size: 11px;
+}
+
+footer strong {
+    color: #ddd;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media(max-width: 900px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .tasks-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media(max-width: 550px) {
+
+    .hero {
+        min-height: 65vh;
+    }
+
+    .hero h1 {
+        letter-spacing: -3px;
+    }
+
+    .tasks-section {
+        padding: 80px 6%;
+    }
+
+    .status-bar {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+    }
+
+    .task-card {
+        min-height: 280px;
+
+        padding: 28px;
+    }
+
+    .final-task {
+        padding: 30px 20px;
+    }
+
+    .final-task h3 {
+        font-size: 30px;
+    }
+
+    footer {
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<nav>
+
+    <div class="logo">
+        KTUBER<span>NEXT</span>
+    </div>
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="index.html">
+                HOME
+            </a>
+        </li>
+
+        <li>
+            <a href="teams.html">
+                TEAMS
+            </a>
+        </li>
+
+        <li>
+            <a href="tasks.html">
+                TASKS
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<!-- HERO -->
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="small-title">
+            KTUBER NEXT • THE CHALLENGES
+        </div>
+
+        <h1>
+            THE<br>
+            <span>TASKS</span>
+        </h1>
+
+        <p class="hero-subtitle">
+            Three creative challenges designed to test
+            your editing, branding, channel-building,
+            storytelling and K-pop content skills.
+        </p>
+
+    </div>
+
+</header>
+
+
+<!-- TASKS -->
+
+<section class="tasks-section">
+
+    <div class="section-label">
+        COMPETITION CHALLENGES
+    </div>
+
+    <h2 class="section-title">
+        Your Challenges Await.
+    </h2>
+
+    <p class="section-description">
+        The tasks below are part of the official KTuber Next
+        competition. Details will be revealed when each challenge
+        officially opens.
+    </p>
+
+
+    <!-- STATUS -->
+
+    <div class="status-bar">
+
+        <div class="status-left">
+            TASK STATUS — CLASSIFIED
+        </div>
+
+        <div class="status-right">
+            03 MAIN CHALLENGES
+        </div>
+
+    </div>
+
+
+    <!-- TASK CARDS -->
+
+    <div class="tasks-grid">
+
+
+        <!-- TASK 01 -->
+
+        <div class="task-card">
+
+            <div class="task-number">
+                TASK 01
+            </div>
+
+            <div class="lock">
+                🔒
+            </div>
+
+            <h3>
+                CLASSIFIED
+            </h3>
+
+            <p>
+                The first challenge has not been revealed yet.
+                Prepare to show your creativity.
+            </p>
+
+            <div class="classified">
+                NOT YET REVEALED
+            </div>
+
+        </div>
+
+
+        <!-- TASK 02 -->
+
+        <div class="task-card">
+
+            <div class="task-number">
+                TASK 02
+            </div>
+
+            <div class="lock">
+                🔒
+            </div>
+
+            <h3>
+                CLASSIFIED
+            </h3>
+
+            <p>
+                The second challenge will be unlocked later
+                in the competition.
+            </p>
+
+            <div class="classified">
+                NOT YET REVEALED
+            </div>
+
+        </div>
+
+
+        <!-- TASK 03 -->
+
+        <div class="task-card">
+
+            <div class="task-number">
+                TASK 03
+            </div>
+
+            <div class="lock">
+                🔒
+            </div>
+
+            <h3>
+                CLASSIFIED
+            </h3>
+
+            <p>
+                The final main challenge remains classified
+                until its official release.
+            </p>
+
+            <div class="classified">
+                NOT YET REVEALED
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FINAL CHALLENGE -->
+
+    <div class="final-task">
+
+        <div class="final-task-content">
+
+            <div class="task-number">
+                FINAL CHALLENGE
+            </div>
+
+            <h3>
+                THE LAST TEST
+            </h3>
+
+            <p>
+                Something bigger is waiting at the end.
+                The final challenge will be revealed officially
+                when the competition reaches that stage.
+            </p>
+
+            <div class="classified">
+                CLASSIFIED
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- OFFICIAL NOTICE -->
+
+    <div class="notice">
+
+        <strong>
+            OFFICIAL KTUBER NEXT NOTICE
+        </strong>
+
+        <p>
+            Tasks are currently classified and are not available
+            for submission. Contestants should wait for the official
+            task announcement before beginning any competition work.
+        </p>
+
+    </div>
+
+
+    <!-- BACK -->
+
+    <div class="back-area">
+
+        <a href="index.html" class="back-btn">
+            ← BACK TO KTUBER NEXT
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div>
+        © 2026 <strong>KTUBER NEXT</strong>
+    </div>
+
+    <div>
+        A CREATOR COMPETITION
+    </div>
+
+</footer>
+
+</body>
+</html>
